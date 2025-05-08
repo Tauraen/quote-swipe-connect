@@ -103,7 +103,7 @@ const ContactForm = () => {
   return (
     <div className="w-full max-w-md mx-auto p-6 bg-white rounded-lg shadow-lg animate-slide-in">
       <h1 className="text-2xl font-bold mb-6 text-center bg-gradient-to-r from-blue-gradient-start to-blue-gradient-end bg-clip-text text-transparent">
-        Contactgegevens
+        Jouw profiel
       </h1>
       
       <form onSubmit={handleSubmit} className="space-y-4">
