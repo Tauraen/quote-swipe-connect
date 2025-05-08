@@ -46,6 +46,8 @@ const ContactForm = () => {
     
     if (!formData.phoneNumber.trim()) {
       newErrors.phoneNumber = "Telefoonnummer is verplicht";
+    } else if (!/^\d{10}$/.test(formData.phoneNumber)) {
+      newErrors.phoneNumber = "Telefoonnummer moet exact 10 cijfers bevatten";
     }
     
     if (!formData.companyName.trim()) {
@@ -58,10 +60,20 @@ const ContactForm = () => {
 
   const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const { name, value } = e.target;
-    setFormData((prev) => ({
-      ...prev,
-      [name]: value,
-    }));
+    
+    // For phone number, only allow digits
+    if (name === 'phoneNumber') {
+      const digitsOnly = value.replace(/\D/g, '');
+      setFormData((prev) => ({
+        ...prev,
+        [name]: digitsOnly,
+      }));
+    } else {
+      setFormData((prev) => ({
+        ...prev,
+        [name]: value,
+      }));
+    }
   };
 
   const handleSubmit = async (e: React.FormEvent) => {
@@ -161,7 +173,8 @@ const ContactForm = () => {
             type="tel"
             value={formData.phoneNumber}
             onChange={handleChange}
-            placeholder="Vul uw telefoonnummer in"
+            placeholder="Vul uw telefoonnummer in (10 cijfers)"
+            maxLength={10}
             className={errors.phoneNumber ? "border-red-500" : ""}
           />
           {errors.phoneNumber && (
