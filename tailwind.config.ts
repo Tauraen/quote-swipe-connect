@@ -67,8 +67,12 @@ export default {
 					start: "#4F46E5", // indigo-600
 					end: "#8B5CF6" // violet-500
 				},
+				"red-gradient": {
+					start: "#ea384c", // bright red from image
+					end: "#cc0000" // darker red
+				},
 				"green-action": "#10B981", // emerald-500
-				"red-action": "#EF4444", // red-500
+				"red-action": "#ea384c", // using the image red
 			},
 			borderRadius: {
 				lg: 'var(--radius)',
@@ -103,6 +107,11 @@ export default {
 				'slide-in': {
 					'0%': { transform: 'translateY(20px)', opacity: '0' },
 					'100%': { transform: 'translateY(0)', opacity: '1' }
+				},
+				'heart-beat': {
+					'0%': { transform: 'scale(1)' },
+					'50%': { transform: 'scale(1.2)' },
+					'100%': { transform: 'scale(1)' }
 				}
 			},
 			animation: {
@@ -110,7 +119,8 @@ export default {
 				'accordion-up': 'accordion-up 0.2s ease-out',
 				'card-swipe-right': 'card-swipe-right 0.5s forwards',
 				'card-swipe-left': 'card-swipe-left 0.5s forwards',
-				'slide-in': 'slide-in 0.4s ease-out'
+				'slide-in': 'slide-in 0.4s ease-out',
+				'heart-beat': 'heart-beat 1s infinite'
 			}
 		}
 	},

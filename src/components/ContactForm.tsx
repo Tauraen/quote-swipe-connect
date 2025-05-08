@@ -102,7 +102,7 @@ const ContactForm = () => {
 
   return (
     <div className="w-full max-w-md mx-auto p-6 bg-white rounded-lg shadow-lg animate-slide-in">
-      <h1 className="text-2xl font-bold mb-6 text-center bg-gradient-to-r from-blue-gradient-start to-blue-gradient-end bg-clip-text text-transparent">
+      <h1 className="text-2xl font-bold mb-6 text-center bg-gradient-to-r from-red-gradient-start to-red-gradient-end bg-clip-text text-transparent">
         Jouw profiel
       </h1>
       
@@ -187,7 +187,7 @@ const ContactForm = () => {
         <Button 
           type="submit" 
           disabled={isSubmitting}
-          className="w-full bg-gradient-to-r from-blue-gradient-start to-blue-gradient-end hover:opacity-90 transition-opacity"
+          className="w-full bg-gradient-to-r from-red-gradient-start to-red-gradient-end hover:opacity-90 transition-opacity"
         >
           {isSubmitting ? "Bezig met verzenden..." : "Doorgaan"}
         </Button>
