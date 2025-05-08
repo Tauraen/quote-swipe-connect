@@ -1,3 +1,4 @@
+
 import type { Config } from "tailwindcss";
 
 export default {
@@ -61,7 +62,13 @@ export default {
 					'accent-foreground': 'hsl(var(--sidebar-accent-foreground))',
 					border: 'hsl(var(--sidebar-border))',
 					ring: 'hsl(var(--sidebar-ring))'
-				}
+				},
+				"blue-gradient": {
+					start: "#4F46E5", // indigo-600
+					end: "#8B5CF6" // violet-500
+				},
+				"green-action": "#10B981", // emerald-500
+				"red-action": "#EF4444", // red-500
 			},
 			borderRadius: {
 				lg: 'var(--radius)',
@@ -84,11 +91,26 @@ export default {
 					to: {
 						height: '0'
 					}
+				},
+				'card-swipe-right': {
+					'0%': { transform: 'translateX(0) rotate(0)', opacity: '1' },
+					'100%': { transform: 'translateX(200%) rotate(20deg)', opacity: '0' }
+				},
+				'card-swipe-left': {
+					'0%': { transform: 'translateX(0) rotate(0)', opacity: '1' },
+					'100%': { transform: 'translateX(-200%) rotate(-20deg)', opacity: '0' }
+				},
+				'slide-in': {
+					'0%': { transform: 'translateY(20px)', opacity: '0' },
+					'100%': { transform: 'translateY(0)', opacity: '1' }
 				}
 			},
 			animation: {
 				'accordion-down': 'accordion-down 0.2s ease-out',
-				'accordion-up': 'accordion-up 0.2s ease-out'
+				'accordion-up': 'accordion-up 0.2s ease-out',
+				'card-swipe-right': 'card-swipe-right 0.5s forwards',
+				'card-swipe-left': 'card-swipe-left 0.5s forwards',
+				'slide-in': 'slide-in 0.4s ease-out'
 			}
 		}
 	},
