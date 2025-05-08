@@ -110,9 +110,16 @@ export default {
 				},
 				'heart-beat': {
 					'0%': { transform: 'scale(1)' },
-					'50%': { transform: 'scale(1.2)' },
+					'15%': { transform: 'scale(1.15)' },
+					'30%': { transform: 'scale(1)' },
+					'45%': { transform: 'scale(1.15)' },
+					'60%': { transform: 'scale(1)' },
 					'100%': { transform: 'scale(1)' }
-				}
+				},
+				'fade-in': {
+					'0%': { opacity: '0' },
+					'100%': { opacity: '1' }
+				},
 			},
 			animation: {
 				'accordion-down': 'accordion-down 0.2s ease-out',
@@ -120,7 +127,8 @@ export default {
 				'card-swipe-right': 'card-swipe-right 0.5s forwards',
 				'card-swipe-left': 'card-swipe-left 0.5s forwards',
 				'slide-in': 'slide-in 0.4s ease-out',
-				'heart-beat': 'heart-beat 1s infinite'
+				'heart-beat': 'heart-beat 1.5s ease-in-out infinite',
+				'fade-in': 'fade-in 0.3s ease-out'
 			}
 		}
 	},
