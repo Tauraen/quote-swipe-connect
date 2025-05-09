@@ -1,4 +1,3 @@
-
 import React, { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { useToast } from "@/hooks/use-toast";
@@ -127,6 +126,41 @@ const ContactForm = () => {
     }
   };
 
+  // Function to generate and download CSV
+  const generateCSV = (data: FormData) => {
+    // Create CSV header and row
+    const headers = ["Voornaam", "Achternaam", "Email", "Telefoonnummer", "Bedrijfsnaam"];
+    const row = [data.firstName, data.lastName, data.email, data.phoneNumber, data.companyName];
+    
+    // Format current date and time for filename
+    const now = new Date();
+    const dateStr = now.toISOString().split('T')[0];
+    const timeStr = now.toTimeString().split(' ')[0].replace(/:/g, '-');
+    
+    // Create CSV content
+    const csvContent = [
+      headers.join(','),
+      row.join(',')
+    ].join('\n');
+    
+    // Create a Blob containing the CSV data
+    const blob = new Blob([csvContent], { type: 'text/csv;charset=utf-8;' });
+    
+    // Create a URL for the blob
+    const url = URL.createObjectURL(blob);
+    
+    // Create a temporary link and trigger download
+    const link = document.createElement('a');
+    link.href = url;
+    link.setAttribute('download', `contact-form-${dateStr}-${timeStr}.csv`);
+    document.body.appendChild(link);
+    link.click();
+    
+    // Clean up
+    document.body.removeChild(link);
+    URL.revokeObjectURL(url);
+  };
+
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     
@@ -134,17 +168,19 @@ const ContactForm = () => {
     
     setIsSubmitting(true);
     
-    // Simulate email sending with a delay
     try {
+      // Simulate processing delay
       await new Promise((resolve) => setTimeout(resolve, 1000));
 
-      // In a real application, you would send the form data to a server
-      console.log("Form data to be sent to tj@voxtur.nl:", formData);
+      // Generate and download CSV file
+      generateCSV(formData);
       
-      // Simulate successful submission
+      console.log("Form data saved to CSV:", formData);
+      
+      // Show success message
       toast({
         title: "Formulier Verzonden!",
-        description: "U wordt doorgestuurd naar de volgende stap.",
+        description: "Een CSV-bestand met uw gegevens is gedownload.",
       });
       
       // Redirect to quotes page after successful submission
@@ -154,7 +190,7 @@ const ContactForm = () => {
       
     } catch (error) {
       toast({
-        title: "Verzending Mislukt",
+        title: "Verwerking Mislukt",
         description: "Probeer het later opnieuw.",
         variant: "destructive",
       });
@@ -278,7 +314,7 @@ const ContactForm = () => {
           disabled={isSubmitting}
           className="w-full bg-gradient-to-r from-red-gradient-start to-red-gradient-end hover:opacity-90 transition-opacity"
         >
-          {isSubmitting ? "Bezig met verzenden..." : "Doorgaan"}
+          {isSubmitting ? "Bezig met verwerken..." : "Doorgaan"}
         </Button>
       </form>
     </div>
