@@ -12,10 +12,10 @@ const Index = () => {
             <Heart className="text-white h-8 w-8" />
           </div>
           <h1 className="text-3xl font-bold text-center mb-2 bg-gradient-to-r from-red-gradient-start to-red-gradient-end bg-clip-text text-transparent">
-            All you need is BI
+            All you need is LoBi
           </h1>
           <p className="text-center mb-2 text-gray-600">
-            Vul het contactformulier in om door te gaan
+            Maak jouw profiel aan
           </p>
         </div>
         
