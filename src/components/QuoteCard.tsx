@@ -94,6 +94,20 @@ const QuoteCard: React.FC<QuoteCardProps> = ({ quote, onSwipe }) => {
     }, 300);
   };
 
+  // Funny BI profile names based on ID
+  const getProfileName = (id: number): string => {
+    switch (id) {
+      case 1: return "Tabella Totaal";
+      case 2: return "Diederik Datavis";
+      case 3: return "Sophie SQL";
+      case 4: return "Pieter Pivot";
+      case 5: return "Clara Chart";
+      case 6: return "Max Metadata";
+      case 7: return "Vera Vizualisatie";
+      default: return `Profiel ${id}`;
+    }
+  };
+
   return (
     <div className="relative w-full max-w-md mx-auto">
       <Card
@@ -131,7 +145,7 @@ const QuoteCard: React.FC<QuoteCardProps> = ({ quote, onSwipe }) => {
                   <img src="/lovable-uploads/f51f019d-4117-4be7-85e2-e57ec4bb6d39.png" alt="" />
                 </Avatar>
               </div>
-              <h3 className="text-xl font-bold">Profiel {quote.id}</h3>
+              <h3 className="text-xl font-bold">{getProfileName(quote.id)}</h3>
             </div>
             
             <div className="mt-3 text-lg font-medium">

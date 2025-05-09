@@ -110,6 +110,20 @@ const QuotesPage = () => {
   };
 
   const currentDilemma = dilemmas[currentQuoteIndex];
+  
+  // Function to get BI profile names based on ID
+  const getProfileName = (id: number): string => {
+    switch (id) {
+      case 1: return "Tabella Totaal";
+      case 2: return "Diederik Datavis";
+      case 3: return "Sophie SQL";
+      case 4: return "Pieter Pivot";
+      case 5: return "Clara Chart";
+      case 6: return "Max Metadata";
+      case 7: return "Vera Vizualisatie";
+      default: return `Profiel ${id}`;
+    }
+  };
 
   return (
     <div className="min-h-screen py-4 px-4 bg-gradient-to-br from-red-50 to-pink-50">
@@ -134,7 +148,7 @@ const QuotesPage = () => {
         {!isCompleted ? (
           <div className="animate-slide-in">
             <div className="mb-4 text-center text-sm font-medium text-gray-500">
-              Profiel {currentQuoteIndex + 1} / {dilemmas.length}
+              {getProfileName(currentQuoteIndex + 1)} - {currentQuoteIndex + 1}/{dilemmas.length}
             </div>
             
             <QuoteCard 
