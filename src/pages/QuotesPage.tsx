@@ -31,8 +31,8 @@ const QuotesPage = () => {
     if (currentQuoteIndex >= dilemmas.length && !isCompleted) {
       setIsCompleted(true);
       toast({
-        title: "Alle dilemma's bekeken!",
-        description: "Je hebt alle dilemma's beantwoord.",
+        title: "Alle profielen bekeken!",
+        description: "Je hebt alle profielen beantwoord.",
       });
     }
   }, [currentQuoteIndex, isCompleted, toast]);
@@ -134,7 +134,7 @@ const QuotesPage = () => {
         {!isCompleted ? (
           <div className="animate-slide-in">
             <div className="mb-4 text-center text-sm font-medium text-gray-500">
-              Dilemma {currentQuoteIndex + 1} / {dilemmas.length}
+              Profiel {currentQuoteIndex + 1} / {dilemmas.length}
             </div>
             
             <QuoteCard 

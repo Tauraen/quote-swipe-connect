@@ -131,7 +131,7 @@ const QuoteCard: React.FC<QuoteCardProps> = ({ quote, onSwipe }) => {
                   <img src="/lovable-uploads/f51f019d-4117-4be7-85e2-e57ec4bb6d39.png" alt="" />
                 </Avatar>
               </div>
-              <h3 className="text-xl font-bold">Dilemma {quote.id}</h3>
+              <h3 className="text-xl font-bold">Profiel {quote.id}</h3>
             </div>
             
             <div className="mt-3 text-lg font-medium">
