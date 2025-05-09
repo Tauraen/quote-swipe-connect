@@ -1,10 +1,11 @@
 
 import React, { useState } from "react";
 import { useNavigate } from "react-router-dom";
-import { useToast } from "@/components/ui/use-toast";
+import { useToast } from "@/hooks/use-toast";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
+import { CheckCircle } from "lucide-react";
 
 interface FormData {
   firstName: string;
@@ -26,40 +27,55 @@ const ContactForm = () => {
   });
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [errors, setErrors] = useState<Partial<FormData>>({});
+  const [validFields, setValidFields] = useState<Record<keyof FormData, boolean>>({
+    firstName: false,
+    lastName: false,
+    email: false,
+    phoneNumber: false,
+    companyName: false,
+  });
+
+  const validateField = (name: keyof FormData, value: string): string | null => {
+    switch (name) {
+      case "firstName":
+        return value.trim().length >= 2 ? null : "Voornaam moet minimaal 2 tekens bevatten";
+      case "lastName":
+        return value.trim().length >= 2 ? null : "Achternaam moet minimaal 2 tekens bevatten";
+      case "email":
+        return /\S+@\S+\.\S+/.test(value) ? null : "Ongeldig e-mailadres";
+      case "phoneNumber":
+        return /^\d{10}$/.test(value) ? null : "Telefoonnummer moet exact 10 cijfers bevatten";
+      case "companyName":
+        return value.trim().length >= 2 ? null : "Bedrijfsnaam moet minimaal 2 tekens bevatten";
+      default:
+        return null;
+    }
+  };
 
   const validateForm = () => {
     const newErrors: Partial<FormData> = {};
+    const newValidFields = { ...validFields };
     
-    if (!formData.firstName.trim()) {
-      newErrors.firstName = "Voornaam is verplicht";
-    }
-    
-    if (!formData.lastName.trim()) {
-      newErrors.lastName = "Achternaam is verplicht";
-    }
-    
-    if (!formData.email.trim()) {
-      newErrors.email = "E-mailadres is verplicht";
-    } else if (!/\S+@\S+\.\S+/.test(formData.email)) {
-      newErrors.email = "Ongeldig e-mailadres";
-    }
-    
-    if (!formData.phoneNumber.trim()) {
-      newErrors.phoneNumber = "Telefoonnummer is verplicht";
-    } else if (!/^\d{10}$/.test(formData.phoneNumber)) {
-      newErrors.phoneNumber = "Telefoonnummer moet exact 10 cijfers bevatten";
-    }
-    
-    if (!formData.companyName.trim()) {
-      newErrors.companyName = "Bedrijfsnaam is verplicht";
-    }
+    Object.entries(formData).forEach(([key, value]) => {
+      const fieldName = key as keyof FormData;
+      const error = validateField(fieldName, value);
+      
+      if (error) {
+        newErrors[fieldName] = error;
+        newValidFields[fieldName] = false;
+      } else {
+        newValidFields[fieldName] = true;
+      }
+    });
     
     setErrors(newErrors);
+    setValidFields(newValidFields);
     return Object.keys(newErrors).length === 0;
   };
 
   const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const { name, value } = e.target;
+    const fieldName = name as keyof FormData;
     
     // For phone number, only allow digits
     if (name === 'phoneNumber') {
@@ -68,11 +84,46 @@ const ContactForm = () => {
         ...prev,
         [name]: digitsOnly,
       }));
+      
+      // Validate the field and update validFields state
+      const error = validateField(fieldName, digitsOnly);
+      setValidFields(prev => ({
+        ...prev,
+        [fieldName]: error === null
+      }));
+      
+      if (error) {
+        setErrors(prev => ({ ...prev, [fieldName]: error }));
+      } else {
+        setErrors(prev => {
+          const newErrors = { ...prev };
+          delete newErrors[fieldName];
+          return newErrors;
+        });
+      }
+      
     } else {
       setFormData((prev) => ({
         ...prev,
         [name]: value,
       }));
+      
+      // Validate the field and update validFields state
+      const error = validateField(fieldName, value);
+      setValidFields(prev => ({
+        ...prev,
+        [fieldName]: error === null
+      }));
+      
+      if (error) {
+        setErrors(prev => ({ ...prev, [fieldName]: error }));
+      } else {
+        setErrors(prev => {
+          const newErrors = { ...prev };
+          delete newErrors[fieldName];
+          return newErrors;
+        });
+      }
     }
   };
 
@@ -88,7 +139,7 @@ const ContactForm = () => {
       await new Promise((resolve) => setTimeout(resolve, 1000));
 
       // In a real application, you would send the form data to a server
-      console.log("Form data to be sent:", formData);
+      console.log("Form data to be sent to roosmarijn@voxtur.nl:", formData);
       
       // Simulate successful submission
       toast({
@@ -119,79 +170,104 @@ const ContactForm = () => {
       </h1>
       
       <form onSubmit={handleSubmit} className="space-y-4">
-        <div className="space-y-2">
+        <div className="space-y-2 relative">
           <Label htmlFor="firstName">Voornaam</Label>
-          <Input
-            id="firstName"
-            name="firstName"
-            value={formData.firstName}
-            onChange={handleChange}
-            placeholder="Vul uw voornaam in"
-            className={errors.firstName ? "border-red-500" : ""}
-          />
+          <div className="relative">
+            <Input
+              id="firstName"
+              name="firstName"
+              value={formData.firstName}
+              onChange={handleChange}
+              placeholder="Vul uw voornaam in"
+              className={errors.firstName ? "border-red-500 pr-10" : "pr-10"}
+            />
+            {validFields.firstName && (
+              <CheckCircle className="h-4 w-4 absolute right-3 top-3 text-green-action" />
+            )}
+          </div>
           {errors.firstName && (
             <p className="text-sm text-red-500">{errors.firstName}</p>
           )}
         </div>
 
-        <div className="space-y-2">
+        <div className="space-y-2 relative">
           <Label htmlFor="lastName">Achternaam</Label>
-          <Input
-            id="lastName"
-            name="lastName"
-            value={formData.lastName}
-            onChange={handleChange}
-            placeholder="Vul uw achternaam in"
-            className={errors.lastName ? "border-red-500" : ""}
-          />
+          <div className="relative">
+            <Input
+              id="lastName"
+              name="lastName"
+              value={formData.lastName}
+              onChange={handleChange}
+              placeholder="Vul uw achternaam in"
+              className={errors.lastName ? "border-red-500 pr-10" : "pr-10"}
+            />
+            {validFields.lastName && (
+              <CheckCircle className="h-4 w-4 absolute right-3 top-3 text-green-action" />
+            )}
+          </div>
           {errors.lastName && (
             <p className="text-sm text-red-500">{errors.lastName}</p>
           )}
         </div>
 
-        <div className="space-y-2">
+        <div className="space-y-2 relative">
           <Label htmlFor="email">E-mailadres</Label>
-          <Input
-            id="email"
-            name="email"
-            type="email"
-            value={formData.email}
-            onChange={handleChange}
-            placeholder="Vul uw e-mailadres in"
-            className={errors.email ? "border-red-500" : ""}
-          />
+          <div className="relative">
+            <Input
+              id="email"
+              name="email"
+              type="email"
+              value={formData.email}
+              onChange={handleChange}
+              placeholder="Vul uw e-mailadres in"
+              className={errors.email ? "border-red-500 pr-10" : "pr-10"}
+            />
+            {validFields.email && (
+              <CheckCircle className="h-4 w-4 absolute right-3 top-3 text-green-action" />
+            )}
+          </div>
           {errors.email && (
             <p className="text-sm text-red-500">{errors.email}</p>
           )}
         </div>
 
-        <div className="space-y-2">
+        <div className="space-y-2 relative">
           <Label htmlFor="phoneNumber">Telefoonnummer</Label>
-          <Input
-            id="phoneNumber"
-            name="phoneNumber"
-            type="tel"
-            value={formData.phoneNumber}
-            onChange={handleChange}
-            placeholder="Vul uw telefoonnummer in (10 cijfers)"
-            maxLength={10}
-            className={errors.phoneNumber ? "border-red-500" : ""}
-          />
+          <div className="relative">
+            <Input
+              id="phoneNumber"
+              name="phoneNumber"
+              type="tel"
+              value={formData.phoneNumber}
+              onChange={handleChange}
+              placeholder="Vul uw telefoonnummer in (10 cijfers)"
+              maxLength={10}
+              className={errors.phoneNumber ? "border-red-500 pr-10" : "pr-10"}
+            />
+            {validFields.phoneNumber && (
+              <CheckCircle className="h-4 w-4 absolute right-3 top-3 text-green-action" />
+            )}
+          </div>
           {errors.phoneNumber && (
             <p className="text-sm text-red-500">{errors.phoneNumber}</p>
           )}
         </div>
 
-        <div className="space-y-2">
+        <div className="space-y-2 relative">
           <Label htmlFor="companyName">Bedrijfsnaam</Label>
-          <Input
-            id="companyName"
-            name="companyName"
-            value={formData.companyName}
-            onChange={handleChange}
-            placeholder="Vul uw bedrijfsnaam in"
-            className={errors.companyName ? "border-red-500" : ""}
-          />
+          <div className="relative">
+            <Input
+              id="companyName"
+              name="companyName"
+              value={formData.companyName}
+              onChange={handleChange}
+              placeholder="Vul uw bedrijfsnaam in"
+              className={errors.companyName ? "border-red-500 pr-10" : "pr-10"}
+            />
+            {validFields.companyName && (
+              <CheckCircle className="h-4 w-4 absolute right-3 top-3 text-green-action" />
+            )}
+          </div>
           {errors.companyName && (
             <p className="text-sm text-red-500">{errors.companyName}</p>
           )}
