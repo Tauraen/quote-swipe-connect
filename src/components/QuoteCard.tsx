@@ -1,3 +1,4 @@
+
 import React, { useState } from "react";
 import { Card } from "@/components/ui/card";
 import { cn } from "@/lib/utils";
@@ -110,9 +111,13 @@ const QuoteCard: React.FC<QuoteCardProps> = ({ quote, onSwipe }) => {
   // Get profile image based on ID
   const getProfileImage = (id: number): string => {
     switch (id) {
+      case 1: return "/lovable-uploads/1a5dc097-3e95-4078-8458-46a26559d3ae.png"; // Fiona Forecast
       case 2: return "/lovable-uploads/20ce845e-3385-46c0-8596-467de9f54d97.png"; // Emma Excel
+      case 3: return "/lovable-uploads/2f692c53-58cb-44dc-80e6-48c742aa212d.png"; // Boris BI
       case 4: return "/lovable-uploads/f491d2a4-6bf1-4ea4-8ba3-dea4f412a170.png"; // Vera Visual
-      case 6: return "/lovable-uploads/ae07c11a-c3d1-4183-9211-0939b33cba1e.png"; // Json Derulo
+      case 5: return "/lovable-uploads/e9d0459f-5a64-4f20-af94-558196ba3d27.png"; // Pieter Puzzel
+      case 6: return "/lovable-uploads/6158f863-04fd-42fd-8b9c-04ca84f5c068.png"; // Json Derulo
+      case 7: return "/lovable-uploads/a0bbdbe2-370d-4943-99b8-490f5c180f90.png"; // Tamara Timeline
       default: return `https://picsum.photos/seed/${id + 100}/500/700`; // Random images for others
     }
   };
@@ -201,3 +206,4 @@ const QuoteCard: React.FC<QuoteCardProps> = ({ quote, onSwipe }) => {
 };
 
 export default QuoteCard;
+
