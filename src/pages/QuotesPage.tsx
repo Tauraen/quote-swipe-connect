@@ -1,4 +1,3 @@
-
 import React, { useState, useEffect } from "react";
 import QuoteCard from "@/components/QuoteCard";
 import { Button } from "@/components/ui/button";
@@ -89,6 +88,13 @@ const QuotesPage = () => {
     const scores = Object.entries(profileScores);
     scores.sort((a, b) => b[1] - a[1]); // Sort by score in descending order
     const topProfile = scores[0][0];
+    
+    // Try to get email from form submission (this could be stored in sessionStorage when the form is submitted)
+    const userEmail = sessionStorage.getItem('userEmail');
+    if (userEmail) {
+      // Keep it for the results page
+      sessionStorage.setItem('userEmail', userEmail);
+    }
     
     // Navigate to results page with the top profile
     navigate(`/results/${topProfile}`);

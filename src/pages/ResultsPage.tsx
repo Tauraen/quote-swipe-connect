@@ -6,6 +6,7 @@ import { profiles } from "@/data/dilemmaData";
 import { Card } from "@/components/ui/card";
 import { ArrowLeft, Heart, Share2 } from "lucide-react";
 import { useToast } from "@/hooks/use-toast";
+import { updateFormDataWithResult } from "@/services/FormService";
 
 const ResultsPage = () => {
   const { profileId } = useParams<{ profileId: string }>();
@@ -22,6 +23,15 @@ const ResultsPage = () => {
         description: "We konden het opgegeven profiel niet vinden.",
         variant: "destructive"
       });
+      return;
+    }
+
+    // Try to get the email from sessionStorage (which would be set in QuotesPage when clicking on Bekijk Resultaat)
+    const email = sessionStorage.getItem('userEmail');
+    if (email && profile) {
+      // Store the profile result with the form submission
+      updateFormDataWithResult(email, profile.title)
+        .catch(err => console.error("Failed to update profile result:", err));
     }
   }, [profile, navigate, toast]);
 

@@ -177,18 +177,13 @@ const ContactForm = () => {
         throw new Error("Failed to save data");
       }
       
+      // Store the email in sessionStorage for later use in the results page
+      sessionStorage.setItem('userEmail', formData.email);
+      
       console.log("Form data saved to database:", formData);
       
-      // Show success message
-      toast({
-        title: "Formulier Verzonden!",
-        description: "Uw gegevens zijn opgeslagen.",
-      });
-      
-      // Redirect to quotes page after successful submission
-      setTimeout(() => {
-        navigate("/quotes");
-      }, 1500);
+      // Redirect to quotes page immediately after successful submission
+      navigate("/quotes");
       
     } catch (error) {
       toast({
