@@ -15,7 +15,7 @@ const Index = () => {
             All you need is LoBi
           </h1>
           <p className="text-center mb-2 text-gray-600">
-            Maak jouw profiel aan
+            Inzicht waar je van gaat houden
           </p>
         </div>
         
