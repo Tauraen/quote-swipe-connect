@@ -1,7 +1,8 @@
+
 import React, { useState } from "react";
 import { Card } from "@/components/ui/card";
 import { cn } from "@/lib/utils";
-import { CheckIcon, XIcon, Star, Heart, Zap } from "lucide-react";
+import { CheckIcon, XIcon, Heart } from "lucide-react";
 import { AspectRatio } from "@/components/ui/aspect-ratio";
 import { Avatar } from "@/components/ui/avatar";
 import { Dilemma } from "@/data/dilemmaData";
@@ -92,10 +93,6 @@ const QuoteCard: React.FC<QuoteCardProps> = ({ quote, onSwipe }) => {
       setSwipeDirection(null);
     }, 300);
   };
-
-  // Generate a fake name for the profile
-  const profileTypes = ["Excel-ex", "Dashboard Dater", "BI-hunter"];
-  const randomName = profileTypes[quote.id % profileTypes.length];
 
   return (
     <div className="relative w-full max-w-md mx-auto">

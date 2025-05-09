@@ -99,9 +99,9 @@ const QuotesPage = () => {
     setResponses({});
     setIsCompleted(false);
     setProfileScores({
-      "Excel-ex": 0,
-      "Dashboard Dater": 0,
-      "BI-hunter": 0
+      "Emma Excel": 0,
+      "Diana Dashboard": 0,
+      "Boris BI": 0
     });
   };
 
