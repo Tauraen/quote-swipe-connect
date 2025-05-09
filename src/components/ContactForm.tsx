@@ -139,7 +139,7 @@ const ContactForm = () => {
       await new Promise((resolve) => setTimeout(resolve, 1000));
 
       // In a real application, you would send the form data to a server
-      console.log("Form data to be sent to roosmarijn@voxtur.nl:", formData);
+      console.log("Form data to be sent to tj@voxtur.nl:", formData);
       
       // Simulate successful submission
       toast({
