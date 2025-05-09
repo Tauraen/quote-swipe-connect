@@ -97,13 +97,13 @@ const QuoteCard: React.FC<QuoteCardProps> = ({ quote, onSwipe }) => {
   // Funny BI profile names based on ID
   const getProfileName = (id: number): string => {
     switch (id) {
-      case 1: return "Tabella Totaal";
-      case 2: return "Diederik Datavis";
-      case 3: return "Sophie SQL";
-      case 4: return "Pieter Pivot";
-      case 5: return "Clara Chart";
-      case 6: return "Max Metadata";
-      case 7: return "Vera Vizualisatie";
+      case 1: return "Fiona Forecast";
+      case 2: return "Emma Excel";
+      case 3: return "Boris BI";
+      case 4: return "Vera Visual";
+      case 5: return "Pieter Puzzel";
+      case 6: return "Json Derulo";
+      case 7: return "Tamara Timeline";
       default: return `Profiel ${id}`;
     }
   };
