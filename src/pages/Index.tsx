@@ -5,7 +5,7 @@ import { Heart } from "lucide-react";
 
 const Index = () => {
   return (
-    <div className="min-h-screen py-8 px-4 bg-gradient-to-br from-red-50 to-pink-50">
+    <div className="min-h-screen py-8 px-4 bg-gradient-to-br from-red-50 to-pink-50 relative">
       <div className="container mx-auto">
         <div className="flex flex-col items-center mb-8">
           <div className="rounded-full bg-red-action p-3 mb-4">
@@ -20,6 +20,15 @@ const Index = () => {
         </div>
         
         <ContactForm />
+      </div>
+      
+      {/* Subtiel VOXTUR logo in de rechteronderhoek */}
+      <div className="fixed bottom-4 right-4 opacity-50 hover:opacity-100 transition-opacity">
+        <img 
+          src="/lovable-uploads/dc1fc023-6eeb-48af-a73c-9808e5faf7c9.png" 
+          alt="VOXTUR" 
+          className="h-8 w-auto"
+        />
       </div>
     </div>
   );
