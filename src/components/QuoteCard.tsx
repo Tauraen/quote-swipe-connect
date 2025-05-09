@@ -5,12 +5,10 @@ import { cn } from "@/lib/utils";
 import { CheckIcon, XIcon, Star, Heart, Zap } from "lucide-react";
 import { AspectRatio } from "@/components/ui/aspect-ratio";
 import { Avatar } from "@/components/ui/avatar";
+import { Dilemma } from "@/data/dilemmaData";
 
 interface QuoteCardProps {
-  quote: {
-    id: number;
-    text: string;
-  };
+  quote: Dilemma;
   onSwipe: (direction: "left" | "right") => void;
 }
 
@@ -19,12 +17,6 @@ const QuoteCard: React.FC<QuoteCardProps> = ({ quote, onSwipe }) => {
   const [startX, setStartX] = useState(0);
   const [offsetX, setOffsetX] = useState(0);
   const [isDragging, setIsDragging] = useState(false);
-
-  // Generate a fake name for the profile
-  const names = ["Riley", "Jamie", "Alex", "Taylor", "Jordan", "Casey"];
-  const randomName = names[quote.id % names.length];
-  const randomAge = 23 + (quote.id % 10);
-  const randomDistance = 1 + (quote.id % 5);
 
   // Touch and mouse event handlers
   const handleTouchStart = (e: React.TouchEvent) => {
@@ -102,6 +94,10 @@ const QuoteCard: React.FC<QuoteCardProps> = ({ quote, onSwipe }) => {
     }, 300);
   };
 
+  // Generate a fake name for the profile
+  const profileTypes = ["Excel-ex", "Dashboard Dater", "BI-hunter"];
+  const randomName = profileTypes[quote.id % profileTypes.length];
+
   return (
     <div className="relative w-full max-w-md mx-auto">
       <Card
@@ -122,30 +118,37 @@ const QuoteCard: React.FC<QuoteCardProps> = ({ quote, onSwipe }) => {
         onMouseUp={handleMouseUp}
         onMouseLeave={handleMouseLeave}
       >
-        {/* Profile Image */}
+        {/* Dilemma Content */}
         <AspectRatio ratio={3/4} className="bg-muted">
           <div className="absolute inset-0 bg-gradient-to-b from-transparent via-transparent to-black/60 z-10" />
           <img 
-            src={`https://picsum.photos/seed/${quote.id}/500/700`} 
-            alt="Profile" 
+            src={`https://picsum.photos/seed/${quote.id + 100}/500/700`} 
+            alt="Dilemma Background" 
             className="object-cover w-full h-full"
           />
           
-          {/* Profile Info Overlay */}
-          <div className="absolute bottom-0 left-0 right-0 p-4 text-white z-20">
-            <div className="flex items-center gap-2">
-              <h3 className="text-2xl font-bold">{randomName}, {randomAge}</h3>
+          {/* Dilemma Content Overlay */}
+          <div className="absolute bottom-0 left-0 right-0 p-6 text-white z-20">
+            <div className="flex items-center gap-2 mb-4">
               <div className="bg-white/20 backdrop-blur-md rounded-full p-1">
-                <Avatar className="h-5 w-5">
+                <Avatar className="h-8 w-8">
                   <img src="/lovable-uploads/f51f019d-4117-4be7-85e2-e57ec4bb6d39.png" alt="" />
                 </Avatar>
               </div>
+              <h3 className="text-xl font-bold">Dilemma {quote.id}</h3>
             </div>
-            <div className="text-sm opacity-90 mt-1">Works at All you need is BI</div>
-            <div className="text-sm opacity-90">{randomDistance} km away</div>
             
-            <div className="mt-2 text-sm line-clamp-2 opacity-85">
-              {quote.text}
+            <div className="mt-3 text-lg font-medium">
+              "{quote.text}"
+            </div>
+            
+            <div className="mt-4 flex justify-between">
+              <div className="text-sm opacity-85">
+                <span>❤️ = {quote.likeProfile}</span>
+              </div>
+              <div className="text-sm opacity-85">
+                <span>❌ = {quote.dislikeProfiles.join(" / ")}</span>
+              </div>
             </div>
           </div>
         </AspectRatio>
@@ -156,31 +159,17 @@ const QuoteCard: React.FC<QuoteCardProps> = ({ quote, onSwipe }) => {
         <button
           onClick={() => handleSwipeLeft()}
           className="p-3 rounded-full bg-white text-red-action shadow-lg border border-gray-200 hover:scale-110 transition-transform"
-          aria-label="Dislike"
+          aria-label="Nee"
         >
           <XIcon size={28} />
         </button>
         
         <button
-          className="p-3 rounded-full bg-white text-blue-500 shadow-lg border border-gray-200 hover:scale-110 transition-transform"
-          aria-label="Super Like"
-        >
-          <Star size={28} className="text-blue-500" />
-        </button>
-        
-        <button
           onClick={() => handleSwipeRight()}
           className="p-3 rounded-full bg-white text-green-action shadow-lg border border-gray-200 hover:scale-110 transition-transform"
-          aria-label="Like"
+          aria-label="Ja"
         >
           <Heart size={28} className="text-red-action animate-heart-beat" />
-        </button>
-        
-        <button
-          className="p-3 rounded-full bg-white text-purple-500 shadow-lg border border-gray-200 hover:scale-110 transition-transform"
-          aria-label="Boost"
-        >
-          <Zap size={28} className="text-purple-500" />
         </button>
       </div>
 

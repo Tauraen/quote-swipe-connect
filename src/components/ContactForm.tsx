@@ -5,6 +5,7 @@ import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { CheckCircle } from "lucide-react";
+import { saveContactFormData } from "@/services/FormService";
 
 interface FormData {
   firstName: string;
@@ -169,18 +170,19 @@ const ContactForm = () => {
     setIsSubmitting(true);
     
     try {
-      // Simulate processing delay
-      await new Promise((resolve) => setTimeout(resolve, 1000));
-
-      // Generate and download CSV file
-      generateCSV(formData);
+      // Save to Supabase database
+      const result = await saveContactFormData(formData);
       
-      console.log("Form data saved to CSV:", formData);
+      if (!result.success) {
+        throw new Error("Failed to save data");
+      }
+      
+      console.log("Form data saved to database:", formData);
       
       // Show success message
       toast({
         title: "Formulier Verzonden!",
-        description: "Een CSV-bestand met uw gegevens is gedownload.",
+        description: "Uw gegevens zijn opgeslagen.",
       });
       
       // Redirect to quotes page after successful submission
