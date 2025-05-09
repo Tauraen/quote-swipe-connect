@@ -1,4 +1,3 @@
-
 import React, { useState } from "react";
 import { Card } from "@/components/ui/card";
 import { cn } from "@/lib/utils";
@@ -140,15 +139,6 @@ const QuoteCard: React.FC<QuoteCardProps> = ({ quote, onSwipe }) => {
             
             <div className="mt-3 text-lg font-medium">
               "{quote.text}"
-            </div>
-            
-            <div className="mt-4 flex justify-between">
-              <div className="text-sm opacity-85">
-                <span>❤️ = {quote.likeProfile}</span>
-              </div>
-              <div className="text-sm opacity-85">
-                <span>❌ = {quote.dislikeProfiles.join(" / ")}</span>
-              </div>
             </div>
           </div>
         </AspectRatio>

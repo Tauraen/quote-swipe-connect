@@ -34,7 +34,7 @@ const ResultsPage = () => {
       navigator
         .share({
           title: `Mijn BI Profiel: ${profile?.title}`,
-          text: `Volgens de BI-match test ben ik een ${profile?.title}! ${profile?.description}`,
+          text: `Volgens de BI-match test ben ik ${profile?.title}! ${profile?.description}`,
           url: window.location.href,
         })
         .then(() => console.log("Shared successfully"))

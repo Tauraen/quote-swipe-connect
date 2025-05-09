@@ -8,9 +8,9 @@ import { ArrowLeft, Heart } from "lucide-react";
 import { dilemmas } from "@/data/dilemmaData";
 
 type ProfileScore = {
-  "Excel-ex": number;
-  "Dashboard Dater": number;
-  "BI-hunter": number;
+  "Emma Excel": number;
+  "Diana Dashboard": number;
+  "Boris BI": number;
 };
 
 const QuotesPage = () => {
@@ -19,9 +19,9 @@ const QuotesPage = () => {
   const [isCompleted, setIsCompleted] = useState(false);
   const [showMatch, setShowMatch] = useState(false);
   const [profileScores, setProfileScores] = useState<ProfileScore>({
-    "Excel-ex": 0,
-    "Dashboard Dater": 0,
-    "BI-hunter": 0
+    "Emma Excel": 0,
+    "Diana Dashboard": 0,
+    "Boris BI": 0
   });
   const { toast } = useToast();
   const navigate = useNavigate();
