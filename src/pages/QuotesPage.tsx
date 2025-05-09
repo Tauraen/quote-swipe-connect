@@ -3,7 +3,7 @@ import QuoteCard from "@/components/QuoteCard";
 import { Button } from "@/components/ui/button";
 import { useToast } from "@/hooks/use-toast";
 import { useNavigate } from "react-router-dom";
-import { ArrowLeft, Heart } from "lucide-react";
+import { Heart } from "lucide-react";
 import { dilemmas } from "@/data/dilemmaData";
 
 type ProfileScore = {
@@ -111,7 +111,7 @@ const QuotesPage = () => {
     });
   };
 
-  const handleBackToForm = () => {
+  const handleBackToHome = () => {
     navigate("/");
   };
 
@@ -134,15 +134,6 @@ const QuotesPage = () => {
   return (
     <div className="min-h-screen py-4 px-4 bg-gradient-to-br from-red-50 to-pink-50">
       <div className="container max-w-md mx-auto">
-        {/* Back button */}
-        <Button 
-          variant="outline" 
-          className="mb-4" 
-          onClick={handleBackToForm}
-        >
-          <ArrowLeft className="mr-2 h-4 w-4" /> Terug
-        </Button>
-
         {/* Page header with app logo */}
         <div className="flex justify-center items-center gap-2 mb-6">
           <Heart className="h-6 w-6 text-red-action animate-heart-beat" />
@@ -198,6 +189,16 @@ const QuotesPage = () => {
             </div>
           </div>
         )}
+        
+        {/* Centered home button at bottom */}
+        <div className="text-center mt-8">
+          <Button 
+            onClick={handleBackToHome}
+            className="bg-gradient-to-r from-red-gradient-start to-red-gradient-end hover:opacity-90 transition-opacity"
+          >
+            Terug naar Home
+          </Button>
+        </div>
       </div>
     </div>
   );

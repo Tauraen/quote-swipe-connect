@@ -1,10 +1,9 @@
-
 import React, { useEffect, useState } from "react";
 import { useParams, useNavigate } from "react-router-dom";
 import { Button } from "@/components/ui/button";
 import { profiles } from "@/data/dilemmaData";
 import { Card } from "@/components/ui/card";
-import { ArrowLeft, Heart, Share2 } from "lucide-react";
+import { Heart, Share2 } from "lucide-react";
 import { useToast } from "@/hooks/use-toast";
 import { updateFormDataWithResult } from "@/services/FormService";
 
@@ -35,10 +34,6 @@ const ResultsPage = () => {
     }
   }, [profile, navigate, toast]);
 
-  const handleBack = () => {
-    navigate('/quotes');
-  };
-
   const handleShare = () => {
     if (navigator.share) {
       navigator
@@ -65,15 +60,6 @@ const ResultsPage = () => {
   return (
     <div className="min-h-screen py-4 px-4 bg-gradient-to-br from-red-50 to-pink-50">
       <div className="container max-w-md mx-auto">
-        {/* Back button */}
-        <Button 
-          variant="outline" 
-          className="mb-4" 
-          onClick={handleBack}
-        >
-          <ArrowLeft className="mr-2 h-4 w-4" /> Terug
-        </Button>
-
         {/* Page header with app logo */}
         <div className="flex justify-center items-center gap-2 mb-6">
           <Heart className="h-6 w-6 text-red-action animate-heart-beat" />
