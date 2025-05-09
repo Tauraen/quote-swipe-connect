@@ -1,4 +1,3 @@
-
 import React, { useState } from "react";
 import { Card } from "@/components/ui/card";
 import { cn } from "@/lib/utils";
@@ -107,6 +106,16 @@ const QuoteCard: React.FC<QuoteCardProps> = ({ quote, onSwipe }) => {
       default: return `Profiel ${id}`;
     }
   };
+  
+  // Get profile image based on ID
+  const getProfileImage = (id: number): string => {
+    switch (id) {
+      case 2: return "/lovable-uploads/20ce845e-3385-46c0-8596-467de9f54d97.png"; // Emma Excel
+      case 4: return "/lovable-uploads/f491d2a4-6bf1-4ea4-8ba3-dea4f412a170.png"; // Vera Visual
+      case 6: return "/lovable-uploads/ae07c11a-c3d1-4183-9211-0939b33cba1e.png"; // Json Derulo
+      default: return `https://picsum.photos/seed/${id + 100}/500/700`; // Random images for others
+    }
+  };
 
   return (
     <div className="relative w-full max-w-md mx-auto">
@@ -132,8 +141,8 @@ const QuoteCard: React.FC<QuoteCardProps> = ({ quote, onSwipe }) => {
         <AspectRatio ratio={3/4} className="bg-muted">
           <div className="absolute inset-0 bg-gradient-to-b from-transparent via-transparent to-black/60 z-10" />
           <img 
-            src={`https://picsum.photos/seed/${quote.id + 100}/500/700`} 
-            alt="Dilemma Background" 
+            src={getProfileImage(quote.id)}
+            alt={`${getProfileName(quote.id)} Profile`}
             className="object-cover w-full h-full"
           />
           
