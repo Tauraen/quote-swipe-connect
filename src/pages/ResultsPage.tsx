@@ -29,7 +29,7 @@ const ResultsPage = () => {
     // Try to get the email from sessionStorage (which would be set in QuotesPage when clicking on Bekijk Resultaat)
     const email = sessionStorage.getItem('userEmail');
     if (email && profile) {
-      // Store the profile result with the form submission
+      // Store the profile result with the form data (now in sessionStorage)
       updateFormDataWithResult(email, profile.title)
         .catch(err => console.error("Failed to update profile result:", err));
     }
