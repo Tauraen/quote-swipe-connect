@@ -1,4 +1,6 @@
 
+import { supabase } from "@/integrations/supabase/client";
+
 interface ContactFormData {
   firstName: string;
   lastName: string;
@@ -8,24 +10,34 @@ interface ContactFormData {
   profileResult?: string;
 }
 
-// Mock implementation without Supabase
 export const saveContactFormData = async (formData: ContactFormData) => {
   try {
-    // Simulate a network request
-    console.log("Form data would be saved:", formData);
+    console.log("Attempting to save form data to Supabase:", formData);
     
-    // Store the data in sessionStorage for local usage
+    // Store in sessionStorage for local usage
     sessionStorage.setItem('userFormData', JSON.stringify(formData));
     sessionStorage.setItem('userEmail', formData.email);
     
+    // Save to Supabase
+    const { data, error } = await supabase
+      .from('contact_submissions')
+      .insert([formData])
+      .select();
+    
+    if (error) {
+      console.error("Supabase error:", error);
+      throw error;
+    }
+    
+    console.log("Form data saved to Supabase successfully:", data);
     return { success: true, data: formData };
+    
   } catch (error) {
     console.error("Error saving form data:", error);
     return { success: false, error };
   }
 };
 
-// Mock implementation without Supabase
 export const updateFormDataWithResult = async (email: string, profileResult: string) => {
   try {
     // Get stored form data from sessionStorage
@@ -39,8 +51,21 @@ export const updateFormDataWithResult = async (email: string, profileResult: str
     formData.profileResult = profileResult;
     sessionStorage.setItem('userFormData', JSON.stringify(formData));
     
-    console.log("Updated form data with result:", profileResult);
+    // Update in Supabase
+    const { data, error } = await supabase
+      .from('contact_submissions')
+      .update({ profileResult })
+      .eq('email', email)
+      .select();
+    
+    if (error) {
+      console.error("Supabase error:", error);
+      throw error;
+    }
+    
+    console.log("Form data updated with result in Supabase:", data);
     return { success: true, data: formData };
+    
   } catch (error) {
     console.error("Error updating form data with result:", error);
     return { success: false, error };
