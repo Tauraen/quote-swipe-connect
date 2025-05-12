@@ -18,6 +18,7 @@ export type Database = {
           id: string
           last_name: string
           phone_number: string
+          profile_result: string | null
         }
         Insert: {
           company_name: string
@@ -27,6 +28,7 @@ export type Database = {
           id?: string
           last_name: string
           phone_number: string
+          profile_result?: string | null
         }
         Update: {
           company_name?: string
@@ -36,6 +38,7 @@ export type Database = {
           id?: string
           last_name?: string
           phone_number?: string
+          profile_result?: string | null
         }
         Relationships: []
       }
