@@ -64,7 +64,7 @@ export const profiles: ProfileData[] = [
     id: "Excel-ex",
     title: "Excel-ex",
     description: "Oei… jij hebt een knipperlichtrelatie met Excel. Je kent alle trucjes, maar diep vanbinnen weet je: dit is geen duurzame liefde. Rapportages kosten je elke maand weer tijd, frustratie en een halve lunchpauze. Het is tijd om verder te swipen. Je verdient beter. Denk: inzicht zonder gepruts.",
-    tip: "Geef jezelf de rust die je verdient. Eén goed dashboard zegt meer dan duizend formules."
+    tip: "Jij bent gemaakt voor VOXTUR analytics. Geef jezelf de rust die je verdient. Eén goed dashboard zegt meer dan duizend formules."
   },
   {
     id: "Dashboard Dater",
@@ -76,6 +76,6 @@ export const profiles: ProfileData[] = [
     id: "BI-hunter",
     title: "BI-hunter",
     description: "Data? Kom maar door. Jij houdt van sleutelen, combineren en diep duiken. Het moet kloppen tot achter de komma – liefst met een zelfgebouwde koppeling erbij. Jij bent de Sherlock Holmes van dashboards, maar vergeet soms: snelheid is óók inzicht.",
-    tip: "Laat de basis aan ons. Dan houd jij tijd over voor de echt spannende analyses."
+    tip: "Jij bent gemaakt voor VOXTUR Analytics. Laat de basis aan ons. Dan houd jij tijd over voor de echt spannende analyses."
   }
 ];
