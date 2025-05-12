@@ -10,6 +10,30 @@ interface ContactFormData {
   profileResult?: string;
 }
 
+// Convert camelCase to snake_case for Supabase database compatibility
+const formatForSupabase = (data: ContactFormData) => {
+  return {
+    first_name: data.firstName,
+    last_name: data.lastName,
+    email: data.email,
+    phone_number: data.phoneNumber,
+    company_name: data.companyName,
+    profile_result: data.profileResult
+  };
+};
+
+// Convert snake_case back to camelCase for frontend
+const formatFromSupabase = (data: any): ContactFormData => {
+  return {
+    firstName: data.first_name,
+    lastName: data.last_name,
+    email: data.email,
+    phoneNumber: data.phone_number,
+    companyName: data.company_name,
+    profileResult: data.profile_result
+  };
+};
+
 export const saveContactFormData = async (formData: ContactFormData) => {
   try {
     console.log("Attempting to save form data to Supabase:", formData);
@@ -18,10 +42,13 @@ export const saveContactFormData = async (formData: ContactFormData) => {
     sessionStorage.setItem('userFormData', JSON.stringify(formData));
     sessionStorage.setItem('userEmail', formData.email);
     
+    // Convert to snake_case for Supabase
+    const supabaseData = formatForSupabase(formData);
+    
     // Save to Supabase
     const { data, error } = await supabase
       .from('contact_submissions')
-      .insert([formData])
+      .insert([supabaseData])
       .select();
     
     if (error) {
@@ -54,7 +81,7 @@ export const updateFormDataWithResult = async (email: string, profileResult: str
     // Update in Supabase
     const { data, error } = await supabase
       .from('contact_submissions')
-      .update({ profileResult })
+      .update({ profile_result: profileResult })
       .eq('email', email)
       .select();
     
