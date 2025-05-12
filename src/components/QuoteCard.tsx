@@ -6,6 +6,7 @@ import { CheckIcon, XIcon, Heart } from "lucide-react";
 import { AspectRatio } from "@/components/ui/aspect-ratio";
 import { Avatar } from "@/components/ui/avatar";
 import { Dilemma } from "@/data/dilemmaData";
+import { useBreakpoint } from "@/hooks/use-breakpoint";
 
 interface QuoteCardProps {
   quote: Dilemma;
@@ -17,6 +18,7 @@ const QuoteCard: React.FC<QuoteCardProps> = ({ quote, onSwipe }) => {
   const [startX, setStartX] = useState(0);
   const [offsetX, setOffsetX] = useState(0);
   const [isDragging, setIsDragging] = useState(false);
+  const { isMobile, isTablet } = useBreakpoint();
 
   // Touch and mouse event handlers
   const handleTouchStart = (e: React.TouchEvent) => {
@@ -122,6 +124,9 @@ const QuoteCard: React.FC<QuoteCardProps> = ({ quote, onSwipe }) => {
     }
   };
 
+  // Determine the aspect ratio based on screen size
+  const cardAspectRatio = isMobile ? 4/5 : isTablet ? 3/4 : 3/4;
+
   return (
     <div className="relative w-full max-w-md mx-auto">
       <Card
@@ -143,7 +148,7 @@ const QuoteCard: React.FC<QuoteCardProps> = ({ quote, onSwipe }) => {
         onMouseLeave={handleMouseLeave}
       >
         {/* Dilemma Content */}
-        <AspectRatio ratio={3/4} className="bg-muted">
+        <AspectRatio ratio={cardAspectRatio} className="bg-muted">
           <div className="absolute inset-0 bg-gradient-to-b from-transparent via-transparent to-black/60 z-10" />
           <img 
             src={getProfileImage(quote.id)}
@@ -152,39 +157,39 @@ const QuoteCard: React.FC<QuoteCardProps> = ({ quote, onSwipe }) => {
           />
           
           {/* Dilemma Content Overlay */}
-          <div className="absolute bottom-0 left-0 right-0 p-6 text-white z-20">
-            <div className="flex items-center gap-2 mb-4">
+          <div className="absolute bottom-0 left-0 right-0 p-4 md:p-6 text-white z-20">
+            <div className="flex items-center gap-2 mb-3 md:mb-4">
               <div className="bg-white/20 backdrop-blur-md rounded-full p-1">
-                <Avatar className="h-8 w-8">
+                <Avatar className="h-6 w-6 md:h-8 md:w-8">
                   <img src="/lovable-uploads/f51f019d-4117-4be7-85e2-e57ec4bb6d39.png" alt="" />
                 </Avatar>
               </div>
-              <h3 className="text-xl font-bold">{getProfileName(quote.id)}</h3>
+              <h3 className="text-lg md:text-xl font-bold">{getProfileName(quote.id)}</h3>
             </div>
             
-            <div className="mt-3 text-lg font-medium">
+            <div className="mt-2 md:mt-3 text-base md:text-lg font-medium">
               "{quote.text}"
             </div>
           </div>
         </AspectRatio>
       </Card>
 
-      {/* Swipe buttons */}
-      <div className="flex justify-center mt-8 space-x-4">
+      {/* Swipe buttons - responsive sizing */}
+      <div className="flex justify-center mt-6 md:mt-8 space-x-4">
         <button
           onClick={() => handleSwipeLeft()}
-          className="p-3 rounded-full bg-white text-red-action shadow-lg border border-gray-200 hover:scale-110 transition-transform"
+          className="p-2 md:p-3 rounded-full bg-white text-red-action shadow-lg border border-gray-200 hover:scale-110 transition-transform"
           aria-label="Nee"
         >
-          <XIcon size={28} />
+          <XIcon size={isMobile ? 24 : 28} />
         </button>
         
         <button
           onClick={() => handleSwipeRight()}
-          className="p-3 rounded-full bg-white text-green-action shadow-lg border border-gray-200 hover:scale-110 transition-transform"
+          className="p-2 md:p-3 rounded-full bg-white text-green-action shadow-lg border border-gray-200 hover:scale-110 transition-transform"
           aria-label="Ja"
         >
-          <Heart size={28} className="text-red-action animate-heart-beat" />
+          <Heart size={isMobile ? 24 : 28} className="text-red-action animate-heart-beat" />
         </button>
       </div>
 
@@ -192,13 +197,16 @@ const QuoteCard: React.FC<QuoteCardProps> = ({ quote, onSwipe }) => {
       {isDragging && offsetX !== 0 && (
         <div 
           className={cn(
-            "absolute top-1/3 -translate-y-1/2 rounded-full p-3 z-20",
+            "absolute top-1/3 -translate-y-1/2 rounded-full p-2 md:p-3 z-20",
             offsetX > 0 ? "right-4 bg-green-action" : "left-4 bg-red-action",
             "transition-opacity"
           )}
           style={{ opacity: Math.min(Math.abs(offsetX) / 100, 1) }}
         >
-          {offsetX > 0 ? <Heart size={24} color="white" /> : <XIcon size={24} color="white" />}
+          {offsetX > 0 ? 
+            <Heart size={isMobile ? 20 : 24} color="white" /> : 
+            <XIcon size={isMobile ? 20 : 24} color="white" />
+          }
         </div>
       )}
     </div>
@@ -206,4 +214,3 @@ const QuoteCard: React.FC<QuoteCardProps> = ({ quote, onSwipe }) => {
 };
 
 export default QuoteCard;
-

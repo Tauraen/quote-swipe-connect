@@ -5,6 +5,7 @@ import { useToast } from "@/hooks/use-toast";
 import { useNavigate } from "react-router-dom";
 import { Heart } from "lucide-react";
 import { dilemmas } from "@/data/dilemmaData";
+import { useBreakpoint } from "@/hooks/use-breakpoint";
 
 type ProfileScore = {
   "Excel-ex": number;
@@ -24,6 +25,7 @@ const QuotesPage = () => {
   });
   const { toast } = useToast();
   const navigate = useNavigate();
+  const { isMobile } = useBreakpoint();
   
   // Check if all dilemmas are completed
   useEffect(() => {
@@ -132,19 +134,19 @@ const QuotesPage = () => {
   };
 
   return (
-    <div className="min-h-screen py-4 px-4 bg-gradient-to-br from-red-50 to-pink-50">
-      <div className="container max-w-md mx-auto">
+    <div className="min-h-screen py-4 md:py-6 px-4 bg-gradient-to-br from-red-50 to-pink-50">
+      <div className="container mx-auto max-w-md">
         {/* Page header with app logo */}
-        <div className="flex justify-center items-center gap-2 mb-6">
-          <Heart className="h-6 w-6 text-red-action animate-heart-beat" />
-          <h1 className="text-2xl font-bold text-center bg-gradient-to-r from-red-gradient-start to-red-gradient-end bg-clip-text text-transparent">
+        <div className="flex justify-center items-center gap-2 mb-4 md:mb-6">
+          <Heart className="h-5 w-5 md:h-6 md:w-6 text-red-action animate-heart-beat" />
+          <h1 className="text-xl md:text-2xl font-bold text-center bg-gradient-to-r from-red-gradient-start to-red-gradient-end bg-clip-text text-transparent">
             All you need is BI
           </h1>
         </div>
 
         {!isCompleted ? (
           <div className="animate-slide-in">
-            <div className="mb-4 text-center text-sm font-medium text-gray-500">
+            <div className="mb-3 md:mb-4 text-center text-xs md:text-sm font-medium text-gray-500">
               {getProfileName(currentQuoteIndex + 1)} - {currentQuoteIndex + 1}/{dilemmas.length}
             </div>
             
@@ -153,14 +155,14 @@ const QuotesPage = () => {
               onSwipe={handleSwipe} 
             />
             
-            <div className="text-center mt-4 text-sm text-gray-500">
+            <div className="text-center mt-3 md:mt-4 text-xs md:text-sm text-gray-500">
               <span className="font-medium">Hint:</span> Swipe rechts als de stelling bij je past, links als niet
             </div>
           </div>
         ) : (
-          <div className="space-y-6 p-6 bg-white rounded-lg shadow-md animate-slide-in">
-            <h2 className="text-xl font-semibold text-center">It's a Match!</h2>
-            <p className="text-center text-gray-600">We hebben de perfecte match voor jou gevonden!</p>
+          <div className="space-y-4 md:space-y-6 p-4 md:p-6 bg-white rounded-lg shadow-md animate-slide-in">
+            <h2 className="text-lg md:text-xl font-semibold text-center">It's a Match!</h2>
+            <p className="text-center text-gray-600 text-sm md:text-base">We hebben de perfecte match voor jou gevonden!</p>
             <div className="flex flex-col space-y-3">
               <Button 
                 onClick={handleShowResults}
@@ -182,18 +184,19 @@ const QuotesPage = () => {
         {/* Match Animation Overlay */}
         {showMatch && (
           <div className="fixed inset-0 bg-gradient-to-r from-red-gradient-start to-red-gradient-end bg-opacity-90 flex items-center justify-center z-50 animate-fade-in">
-            <div className="text-center">
-              <Heart className="h-20 w-20 text-white mx-auto mb-4 animate-heart-beat" />
-              <div className="text-4xl font-bold text-white mb-2">It's a Match!</div>
-              <div className="text-xl text-white">{currentDilemma.text}</div>
+            <div className="text-center p-6">
+              <Heart className="h-16 w-16 md:h-20 md:w-20 text-white mx-auto mb-3 md:mb-4 animate-heart-beat" />
+              <div className="text-2xl md:text-4xl font-bold text-white mb-2">It's a Match!</div>
+              <div className="text-lg md:text-xl text-white">{currentDilemma.text}</div>
             </div>
           </div>
         )}
         
         {/* Centered home button at bottom */}
-        <div className="text-center mt-8">
+        <div className="text-center mt-6 md:mt-8 pb-4 md:pb-6">
           <Button 
             onClick={handleBackToHome}
+            size={isMobile ? "default" : "lg"}
             className="bg-gradient-to-r from-red-gradient-start to-red-gradient-end hover:opacity-90 transition-opacity"
           >
             Terug naar Home
