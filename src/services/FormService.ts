@@ -30,7 +30,7 @@ const formatFromSupabase = (data: any): ContactFormData => {
     email: data.email,
     phoneNumber: data.phone_number,
     companyName: data.company_name,
-    profileResult: data.profile_result // We still map it in case it exists in the future
+    // We're not mapping profile_result since it's not in the database
   };
 };
 
@@ -73,14 +73,14 @@ export const updateFormDataWithResult = async (email: string, profileResult: str
       return { success: false, error: "No submission found for this email" };
     }
     
-    // Update the stored data
+    // Update the stored data with the profile result
     const formData = JSON.parse(storedData);
     formData.profileResult = profileResult;
-    sessionStorage.setItem('userFormData', JSON.stringify(formData));
     
-    // For now, we'll skip updating the Supabase table with profileResult 
-    // since the column doesn't exist in the database schema yet
-    console.log("Form data updated with result in local storage");
+    // Save updated data to sessionStorage only
+    sessionStorage.setItem('userFormData', JSON.stringify(formData));
+    console.log("Form data updated with profile result in sessionStorage:", formData);
+    
     return { success: true, data: formData };
     
   } catch (error) {
