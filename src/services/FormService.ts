@@ -18,7 +18,6 @@ const formatForSupabase = (data: ContactFormData) => {
     email: data.email,
     phone_number: data.phoneNumber,
     company_name: data.companyName
-    // Note: profile_result is not included as it's not in the database schema
   };
 };
 
@@ -30,7 +29,6 @@ const formatFromSupabase = (data: any): ContactFormData => {
     email: data.email,
     phoneNumber: data.phone_number,
     companyName: data.company_name,
-    // We're not mapping profile_result since it's not in the database
   };
 };
 
@@ -43,7 +41,7 @@ export const saveContactFormData = async (formData: ContactFormData) => {
   console.log("Form data saved to sessionStorage successfully");
   
   try {
-    // Try to save to Supabase, but don't let it block the user
+    // Try to save to Supabase
     const supabaseData = formatForSupabase(formData);
     
     const { data, error } = await supabase
@@ -53,37 +51,61 @@ export const saveContactFormData = async (formData: ContactFormData) => {
     
     if (error) {
       console.warn("Supabase save failed, but continuing with local storage:", error);
-      // Don't throw error - we still have the data in sessionStorage
     } else {
       console.log("Form data also saved to Supabase successfully:", data);
+      // Store the submission ID for later use when updating results
+      if (data && data[0]) {
+        sessionStorage.setItem('submissionId', data[0].id);
+      }
     }
     
   } catch (error) {
     console.warn("Supabase connection failed, but form data is saved locally:", error);
-    // Don't throw error - we still have the data in sessionStorage
   }
   
-  // Always return success since we have the data in sessionStorage
   return { success: true, data: formData };
 };
 
 export const updateFormDataWithResult = async (email: string, profileResult: string) => {
   try {
-    // Get stored form data from sessionStorage
+    // Update sessionStorage
     const storedData = sessionStorage.getItem('userFormData');
-    if (!storedData) {
-      return { success: false, error: "No submission found for this email" };
+    if (storedData) {
+      const formData = JSON.parse(storedData);
+      formData.profileResult = profileResult;
+      sessionStorage.setItem('userFormData', JSON.stringify(formData));
     }
     
-    // Update the stored data with the profile result
-    const formData = JSON.parse(storedData);
-    formData.profileResult = profileResult;
+    // Try to update in Supabase database using the results column
+    const submissionId = sessionStorage.getItem('submissionId');
+    if (submissionId) {
+      const { data, error } = await supabase
+        .from('contact_submissions')
+        .update({ Results: profileResult })
+        .eq('id', submissionId)
+        .select();
+      
+      if (error) {
+        console.warn("Failed to update results in Supabase:", error);
+      } else {
+        console.log("Results updated in Supabase successfully:", data);
+      }
+    } else {
+      // Fallback: try to find the submission by email and update
+      const { data, error } = await supabase
+        .from('contact_submissions')
+        .update({ Results: profileResult })
+        .eq('email', email)
+        .select();
+      
+      if (error) {
+        console.warn("Failed to update results in Supabase using email:", error);
+      } else {
+        console.log("Results updated in Supabase using email:", data);
+      }
+    }
     
-    // Save updated data to sessionStorage only
-    sessionStorage.setItem('userFormData', JSON.stringify(formData));
-    console.log("Form data updated with profile result in sessionStorage:", formData);
-    
-    return { success: true, data: formData };
+    return { success: true, data: { profileResult } };
     
   } catch (error) {
     console.error("Error updating form data with result:", error);

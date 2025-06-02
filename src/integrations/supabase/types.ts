@@ -19,6 +19,7 @@ export type Database = {
           last_name: string
           phone_number: string
           profile_result: string | null
+          Results: string | null
         }
         Insert: {
           company_name: string
@@ -29,6 +30,7 @@ export type Database = {
           last_name: string
           phone_number: string
           profile_result?: string | null
+          Results?: string | null
         }
         Update: {
           company_name?: string
@@ -39,6 +41,7 @@ export type Database = {
           last_name?: string
           phone_number?: string
           profile_result?: string | null
+          Results?: string | null
         }
         Relationships: []
       }
