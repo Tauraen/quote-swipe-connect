@@ -170,7 +170,7 @@ const ContactForm = () => {
     setIsSubmitting(true);
     
     try {
-      // Save to Supabase database
+      // Save locally only for now
       const result = await saveContactFormData(formData);
       
       if (!result.success) {
@@ -180,7 +180,13 @@ const ContactForm = () => {
       // Store the email in sessionStorage for later use in the results page
       sessionStorage.setItem('userEmail', formData.email);
       
-      console.log("Form data saved to database:", formData);
+      console.log("Form data saved locally:", formData);
+      
+      toast({
+        title: "Gegevens Opgeslagen",
+        description: "Je gegevens zijn lokaal opgeslagen.",
+        variant: "default",
+      });
       
       // Redirect to quotes page immediately after successful submission
       navigate("/quotes");
